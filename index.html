@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Run MS | Corredores de Elite de Brasilândia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset e Estilos Globais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: #F5F5F5;
+            color: #1A1A1A;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Cores */
+        :root {
+            --verde: #2E8B57;
+            --laranja: #FF6B35;
+            --azul: #1E88E5;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: #1A1A1A;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            background-color: var(--laranja);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-img img {
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            color: var(--laranja);
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #F5F5F5;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--laranja);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--laranja);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('um-corrida.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 10%;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        .cta-button {
+            background-color: var(--laranja);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+        
+        .cta-button:hover {
+            background-color: #E05A2B;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Seção Atletas */
+        .atletas {
+            padding: 8rem 10% 5rem;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--verde);
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -10px;
+            left: 20%;
+            background-color: var(--laranja);
+            border-radius: 2px;
+        }
+        
+        .atletas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .atleta-card {
+            background-color: #F5F5F5;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.5s;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .atleta-card:nth-child(1) { animation-delay: 0.3s; }
+        .atleta-card:nth-child(2) { animation-delay: 0.5s; }
+        .atleta-card:nth-child(3) { animation-delay: 0.7s; }
+        .atleta-card:nth-child(4) { animation-delay: 0.9s; }
+        
+        .atleta-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .atleta-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        
+        .atleta-card:hover .atleta-img {
+            transform: scale(1.05);
+        }
+        
+        .atleta-info {
+            padding: 1.5rem;
+        }
+        
+        .atleta-info h3 {
+            color: var(--laranja);
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        
+        .atleta-info p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .atleta-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feminina {
+            background-color: #FFD1DC;
+            color: #D23369;
+        }
+        
+        .masculina {
+            background-color: #ADD8E6;
+            color: #1E3A8A;
+        }
+        
+        .atleta-button {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--verde);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .atleta-button:hover {
+            background-color: #256d45; /* Verde mais escuro */
+            transform: scale(1.05);
+        }
+        /* Seção Galeria */
+        .galeria {
+            padding: 5rem 10%;
+            background-color: var(--verde);
+            color: white;
+        }
+        
+        .galeria .section-title {
+            color: white;
+            /* Reseta o posicionamento para que o container flex possa alinhá-lo corretamente */
+            left: auto;
+            transform: none;
+            /* Deixa o container .galeria-title controlar a margem inferior */
+            margin-bottom: 0;
+        }
+        
+        .galeria .section-title::after {
+            background-color: white;
+        }
+        
+        .galeria-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .galeria-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 200px;
+            transition: 0.5s;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .galeria-item:nth-child(1) { animation-delay: 0.3s; }
+        .galeria-item:nth-child(2) { animation-delay: 0.5s; }
+        .galeria-item:nth-child(3) { animation-delay: 0.7s; }
+        .galeria-item:nth-child(4) { animation-delay: 0.9s; }
+        
+        .galeria-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        
+        .galeria-item:hover .galeria-img {
+            transform: scale(1.1);
+        }
+        
+        .galeria-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1rem;
+            color: white;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        
+        .galeria-item:hover .galeria-caption {
+            opacity: 1;
+        }
+        
+        /* Rodapé */
+        footer {
+            background-color: #1A1A1A;
+            color: white;
+            padding: 3rem 10%;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            color: var(--laranja);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .social-links a:hover {
+            color: var(--laranja);
+            transform: translateY(-5px);
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .atletas-grid, .galeria-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo-img"><img src="https://img.icons8.com/hatch/64/exercise.png" alt="Logo Elite Run MS"/></div>
+            <div class="logo-text">ELITE RUN MS<img src="https://img.icons8.com/color/24/brazil.png" alt="Bandeira do Brasil"/></div>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#atletas">Atletas</a>
+            <a href="#galeria">Galeria</a>
+            <a href="#contato">Contato</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>ELITE RUN MS: VELOCIDADE E SUPERÇÃO EM BRASILÂNDIA</h1>
+        <p>Os melhores corredores de Mato Grosso do Sul, representando Brasilândia em todo o Brasil.</p>
+        <button class="cta-button">VER ATLETAS</button>
+    </section>
+
+    <!-- Seção Atletas -->
+    <section class="atletas" id="atletas">
+        <h2 class="section-title">NOSSOS ATLETAS DE ELITE</h2>
+        <div class="atletas-grid">
+            <!-- Atleta Feminina 1 -->
+            <div class="atleta-card">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Atleta Ana Souza" class="atleta-img">
+                <div class="atleta-info">
+                    <span class="atleta-category feminina">Feminino</span>
+                    <h3>Ana Souza</h3>
+                    <p><strong>10km em 34min12s</strong></p>
+                    <p>Campeã da Corrida das Águas 2023</p>
+                </div>
+            </div>
+            
+            <!-- Atleta Masculino 1 -->
+            <div class="atleta-card">
+                <img src="fotoflayth.jpg" alt="Atleta Flayth Menão" class="atleta-img">
+                <div class="atleta-info">
+                    <span class="atleta-category masculina">Masculino</span>
+                    <h3>Flayth Menão</h3>
+                    <p><strong>10km em 32min45s</strong></p>
+                    <p> Atleta de BRASILÂNDIA</p>
+                    <a href="#" class="atleta-button">Conheça minha trajetória</a>
+                </div>
+            </div>
+            
+            <!-- Atleta Feminina 2 -->
+            <div class="atleta-card">
+                <img src="https://images.unsplash.com/photo-1519865885898-a54a6f2c7eea?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Atleta Carla Rocha" class="atleta-img">
+                <div class="atleta-info">
+                    <span class="atleta-category feminina">Feminino</span>
+                    <h3>Carla Rocha</h3>
+                    <p><strong>Maratona em 2h58min</strong></p>
+                    <p>3ª colocada no Brasileiro 2024</p>
+                </div>
+            </div>
+            
+            <!-- Atleta Masculino 2 -->
+            <div class="atleta-card">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Atleta Carlos Mendes" class="atleta-img">
+                <div class="atleta-info">
+                    <span class="atleta-category masculina">Masculino</span>
+                    <h3>Carlos Mendes</h3>
+                    <p><strong>21km em 1h10min22s</strong></p>
+                    <p>Recordista estadual de meia maratona</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Galeria -->
+    <section class="galeria" id="galeria">
+        <div class="galeria-title">
+            <i class="fas fa-camera-retro" style="font-size: 2rem;"></i>
+            <h2 class="section-title">GALERIA DE MOMENTOS</h2>
+        </div>
+        <div class="galeria-grid">
+            <div class="galeria-item">
+                <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Corrida em Brasilândia" class="galeria-img">
+                <div class="galeria-caption">Corrida Noturna em Brasilândia</div>
+            </div>
+            <div class="galeria-item">
+                <img src="https://images.unsplash.com/photo-1530137073520-4d1a3f24d3a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Treino em grupo" class="galeria-img">
+                <div class="galeria-caption">Treino em Campo Grande</div>
+            </div>
+            <div class="galeria-item">
+                <img src="https://images.unsplash.com/photo-1543351611-58f69d7c1781?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Premiação" class="galeria-img">
+                <div class="galeria-caption">Premiação Corrida da Capital</div>
+            </div>
+            <div class="galeria-item">
+                <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Largada" class="galeria-img">
+                <div class="galeria-caption">Largada em Corumbá</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer id="contato">
+        <div class="footer-logo">ELITE RUN MS</div>
+        <p>Atletas de corrida representando Brasilândia em todo o Brasil</p>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p>&copy; 2025 Thyesko Menão. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
